@@ -32,6 +32,9 @@
                         <li class="nav-item" id="protectedDataLink" style="display:none">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ProtectedData">Protected Data</a>
                         </li>
+                        <li class="nav-item" id="employeeLink" style="display:none">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                        </li>
 
                         <li class="nav-item" id="logoutLink" style="display:none">
                             <a class="nav-link text-dark" >Logout</a>
@@ -62,17 +65,20 @@
 	const loginLink = document.getElementById('loginLink');
 	const registerLink = document.getElementById('registerLink');
 	const protectedDataLink = document.getElementById('protectedDataLink');
+    const employeeLink = document.getElementById("employeeLink");
 	const logoutLink = document.getElementById('logoutLink');
 	const jwtToken = localStorage.getItem('token');
 	if (jwtToken) {
 		loginLink.style.display = 'none';
 		registerLink.style.display = 'none';
 		protectedDataLink.style.display = 'block';
+        employeeLink.style.display = 'block'
 		logoutLink.style.display = 'block';
 	} else {
 		loginLink.style.display = 'block';
 		registerLink.style.display = 'block';
 		protectedDataLink.style.display = 'none';
+		employeeLink.style.display = 'none';
 		logoutLink.style.display = 'none';
 	}
 	logoutLink.addEventListener('click', () => {

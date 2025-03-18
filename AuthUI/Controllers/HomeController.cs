@@ -30,6 +30,10 @@ public class HomeController : Controller
     public IActionResult ProtectedData()
     {
         return View();
+    } 
+    public IActionResult Employee()
+    {
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

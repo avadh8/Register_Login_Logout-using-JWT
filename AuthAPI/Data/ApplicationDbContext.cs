@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AuthAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthAPI.Data
@@ -9,5 +10,6 @@ namespace AuthAPI.Data
         {
             
         }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

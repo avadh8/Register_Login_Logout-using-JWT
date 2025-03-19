@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", builder =>
+    options.AddPolicy("AllowAll", builder =>
     {
         builder.AllowAnyOrigin()   // Allow any origin
                .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
@@ -22,6 +22,8 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -82,10 +84,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 };
 
-app.UseCors("AllowAllOrigins");
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();  
 app.UseAuthorization();
 
 app.MapControllers();

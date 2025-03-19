@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthAPI.Controllers
 {
-    [Route("api/[controller]/[Action]")]
+    
     [ApiController]
-   
+    [Route("[controller]")]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -17,7 +18,7 @@ namespace AuthAPI.Controllers
         {
             _context = context;
         }
-
+        // if I remove [Authorize] then it show all data on UI
         [HttpGet]
         public IActionResult Get()
         {

@@ -1,53 +1,69 @@
-﻿@model IEnumerable<AuthUI.Models.EmployeeViewModel>
+﻿<h2>Employee</h2>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Designation)
-            </th>
-            <th></th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Designation</th>
         </tr>
+
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Designation)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
+    <tbody id="employeeTable"></tbody>
 </table>
+
+<script>
+
+    FetchEmployeeData();
+
+        function FetchEmployeeData() {
+        const jwtToken = localStorage.getItem('token');
+            console.log(localStorage.getItem('token')); 
+
+        if (!jwtToken) {
+            console.error('No token found in localStorage');
+            alert('You need to log in first.');
+            return;
+        }
+
+        fetch('https://localhost:7122/Employee', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,  // Send the token in the Authorization header
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.status === 401) {
+                console.error('Unauthorized access - Token expired or invalid');
+                alert('Your session has expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = '/Home/Login';
+            }
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            return response.json();
+        })
+        .then(data => {
+            const table = document.getElementById('employeeTable');
+            table.innerHTML = ''; // Clear existing table rows
+            data.forEach(employee => {
+                const row = `<tr>
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.department}</td>
+                    <td>${employee.designation}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching employee data:', error);
+        });
+    }
+
+</script>

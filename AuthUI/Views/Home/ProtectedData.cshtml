@@ -8,6 +8,7 @@
             <th>Temperature (F)</th>
             <th>Summary</th>
         </tr>
+        
     </thead>
     <tbody id="weatherTable"></tbody>
 </table>
@@ -17,6 +18,9 @@
 
     function FetchWeatherData(){
         const jwtToken = localStorage.getItem('token');  // Replace with your actual JWT token
+        // .
+
+
 
         fetch('https://localhost:7122/weatherForecast', {
             method: 'GET',
